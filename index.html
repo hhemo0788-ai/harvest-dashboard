@@ -17,10 +17,6 @@
         <div style="margin-bottom: 2rem;">
           <img src="logo.png" alt="Harvest Logo" class="main-logo">
         </div>
-        <div class="nav-links-hero" style="margin-bottom: 2rem;">
-          <a href="login.html" id="adminLinkHero"
-            style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem;">دخول الإدارة</a>
-        </div>
         <div class="search-container" style="max-width: 600px;">
           <input type="text" id="searchInput" placeholder="ابحث بالاسم، المادة الفعالة، أو التركيب...">
         </div>
@@ -61,14 +57,7 @@
 
   <script src="main.js"></script>
   <script>
-    // Check if admin is logged in to change "Admin Login" to "Dashboard"
-    if (localStorage.getItem('isAdmin') === 'true') {
-      const adminLink = document.getElementById('adminLinkHero');
-      if (adminLink) {
-        adminLink.textContent = 'لوحة التحكم';
-        adminLink.href = 'admin.html';
-      }
-    }
+
 
     // Search & Filter functionality
     const searchInput = document.getElementById('searchInput');
