@@ -130,9 +130,11 @@
                         <span class="price-tag">${parseFloat(product.price || 0).toFixed(2)} ج.م</span>
                         
                         <div class="info-grid">
-                            <div class="info-item">
-                                <label>${ingredientLabel}</label>
-                                <span>${product.ingredient || 'غير متوفر'}</span>
+                            <div class="info-item" style="grid-column: 1 / -1; background: white; padding: 1.5rem; border-radius: 15px; border: 1px solid #edf2ed;">
+                                <label style="font-size: 1rem; color: var(--primary); font-weight: bold; margin-bottom: 0.8rem; display: block; border-bottom: 2px solid var(--secondary); padding-bottom: 0.5rem; width: fit-content;">${ingredientLabel}</label>
+                                <div style="line-height: 1.8; font-size: 1.1rem; color: var(--text-dark);">
+                                    ${product.ingredient ? product.ingredient.split(',').map(item => `<div style="display: flex; align-items: flex-start; gap: 0.5rem;"><span>•</span> <span>${item.trim()}</span></div>`).join('') : 'غير متوفر'}
+                                </div>
                             </div>
                             <div class="info-item">
                                 <label>محتوى الكرتونة</label>

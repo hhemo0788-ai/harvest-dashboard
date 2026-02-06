@@ -82,8 +82,9 @@ async function renderProducts(filter = "", category = "") {
                     <div class="price">${parseFloat(product.price || 0).toFixed(2)} ج.م</div>
                 </div>
 
-                ${product.ingredient ? `<div style="font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--text-dark);">
-                    <strong>${['npk', 'أسمدة متخصصة', 'منظم نمو', 'محسنات تربة'].includes(product.category) ? 'التركيب' : 'المادة الفعالة'}:</strong> ${product.ingredient}
+                ${product.ingredient ? `<div style="font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--text-dark); line-height: 1.5;">
+                    <strong style="display: block; margin-bottom: 0.2rem;">${['npk', 'أسمدة متخصصة', 'منظم نمو', 'محسنات تربة'].includes(product.category) ? 'التركيب' : 'المادة الفعالة'}:</strong>
+                    <div style="padding-right: 0.5rem;">${product.ingredient.split(',').map(item => `• ${item.trim()}`).join('<br>')}</div>
                 </div>` : ''}
 
                 <div style="display: flex; gap: 2rem; font-size: 0.85rem; color: var(--text-light); margin-top: auto;">

@@ -54,7 +54,7 @@ app.get('/api/last-updated', async (req, res) => {
 
 app.get('/api/products', async (req, res) => {
     try {
-        const products = await Product.find().sort({ updatedAt: -1 });
+        const products = await Product.find().sort({ name: 1 });
         res.json(products);
     } catch (err) {
         res.status(500).json({ error: err.message });
