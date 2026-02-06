@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل المنتج | Harvest</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .details-container {
+            max-width: 1000px;
+            margin: 4rem auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+        }
+
+        .details-image {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            border-radius: 20px;
+            background: #fbfcfb;
+            padding: 1rem;
+        }
+
+        .details-info h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .price-tag {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #f8faf8;
+            border-radius: 20px;
+        }
+
+        .info-item label {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item span {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .details-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 1.5rem;
+            }
+
+            .details-image {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <main class="container">
+        <div id="productDetails" class="details-container">
+            <!-- Details will be injected here -->
+            <div style="grid-column: 1/-1; text-align: center; padding: 5rem;">
+                <p>جاري تحميل تفاصيل المنتج...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const productId = params.get('id');
+            const container = document.getElementById('productDetails');
+
+            if (!productId) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/products/${productId}`);
+                if (!res.ok) throw new Error('Product not found');
+                const product = await res.json();
+
+                const ingredientLabel = ['npk', 'أسمدة متخصصة', 'منظم نمو', 'محسنات تربة'].includes(product.category) ? 'التركيب' : 'المادة الفعالة';
+
+                container.innerHTML = `
+                    <div>
+                        <a href="index.html" class="back-link">→ العودة للمنتجات</a>
+                        <img src="${product.image || 'https://via.placeholder.com/400'}" class="details-image" alt="${product.name}">
+                    </div>
+                    <div class="details-info">
+                        <span class="badge badge-stock" style="margin-bottom: 1rem;">${product.category || 'عام'}</span>
+                        <h1>${product.name}</h1>
+                        <span class="price-tag">${parseFloat(product.price || 0).toFixed(2)} ج.م</span>
+                        
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>${ingredientLabel}</label>
+                                <span>${product.ingredient || 'غير متوفر'}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>محتوى الكرتونة</label>
+                                <span>${product.cartonContent || 'غير متوفر'}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>حجم العبوة</label>
+                                <span>${product.packageSize || 'غير متوفر'}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>الكمية المتاحة</label>
+                                <span>${product.quantity || 0} وحدة</span>
+                            </div>
+                            <div class="info-item">
+                                <label>تاريخ الانتهاء</label>
+                                <span class="badge-expiry">${product.expiry || 'غير متوفر'}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>المنشأ</label>
+                                <span>${product.origin || 'غير متوفر'}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>الشركة المستوردة</label>
+                                <span>${product.importer || 'غير متوفر'}</span>
+                            </div>
+                            <div class="info-item" style="grid-column: 1 / -1; margin-top: 1rem; border-top: 1px dashed #ddd; padding-top: 1rem;">
+                                <label style="color: var(--primary); font-weight: bold;">معدل الاستخدام</label>
+                                <span style="font-size: 1.2rem;">${product.useRate || 'غير متوفر'}</span>
+                            </div>
+                        </div>
+
+                        <a href="https://wa.me/201234567890" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1.2rem; font-size: 1.1rem;">
+                            استفسار عبر واتساب 💬
+                        </a>
+                    </div>
+                `;
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 5rem;">
+                        <h2>عذراً، المنتج غير موجود أو حدث خطأ</h2>
+                        <a href="index.html" class="btn btn-primary" style="margin-top: 2rem;">العودة للرئيسية</a>
+                    </div>`;
+            }
+        });
+    </script>
+    <footer style="text-align: center; padding: 3rem; color: var(--text-light); border-top: 1px solid #eee;">
+        <p>&copy; جميع الحقوق محفوظة لدى شركة هارفست 2026</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.8;">تصميم وتطوير م / ابراهيم مجدى</p>
+    </footer>
+</body>
+
+</html>

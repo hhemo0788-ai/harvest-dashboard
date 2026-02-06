@@ -1,0 +1,94 @@
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harvest | حلول زراعية متميزة</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="تصفح أفضل الأسمدة والمبيدات الزراعية من شركة Harvest. جودة عالمية وخبرة محلية.">
+</head>
+
+<body>
+
+
+  <main>
+    <section class="hero">
+      <div class="container text-center">
+        <div style="margin-bottom: 2rem;">
+          <img src="logo.png" alt="Harvest Logo" class="main-logo">
+        </div>
+        <div class="nav-links-hero" style="margin-bottom: 2rem;">
+          <a href="login.html" id="adminLinkHero"
+            style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem;">دخول الإدارة</a>
+        </div>
+        <div class="search-container" style="max-width: 600px;">
+          <input type="text" id="searchInput" placeholder="ابحث بالاسم، المادة الفعالة، أو التركيب...">
+        </div>
+
+        <div class="category-nav" id="categoryChips">
+          <div class="chip active" data-category="">الكل</div>
+          <div class="chip" data-category="مبيد حشرى">مبيد حشرى</div>
+          <div class="chip" data-category="مبيد فطري">مبيد فطري</div>
+          <div class="chip" data-category="مبيد اكاروسى">مبيد اكاروسى</div>
+          <div class="chip" data-category="مبيد حشائش">مبيد حشائش</div>
+          <div class="chip" data-category="npk">npk</div>
+          <div class="chip" data-category="أسمدة متخصصة">أسمدة متخصصة</div>
+          <div class="chip" data-category="منظم نمو">منظم نمو</div>
+          <div class="chip" data-category="محسنات تربة">محسنات تربة</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="product-grid" id="productGrid">
+        <!-- Products will be injected here by JavaScript -->
+        <div class="text-center" style="grid-column: 1/-1; padding: 4rem;">
+          <p>جاري تحميل المنتجات...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="text-align: center; padding: 3rem; color: var(--text-light); border-top: 1px solid #eee;">
+    <p>&copy; جميع الحقوق محفوظة لدى شركة هارفست 2026</p>
+    <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.8;">تصميم وتطوير م / ابراهيم مجدى</p>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    // Check if admin is logged in to change "Admin Login" to "Dashboard"
+    if (localStorage.getItem('isAdmin') === 'true') {
+      const adminLink = document.getElementById('adminLinkHero');
+      if (adminLink) {
+        adminLink.textContent = 'لوحة التحكم';
+        adminLink.href = 'admin.html';
+      }
+    }
+
+    // Search & Filter functionality
+    const searchInput = document.getElementById('searchInput');
+    const categoryChips = document.getElementById('categoryChips');
+    let activeCategory = "";
+
+    function handleFilter() {
+      renderProducts(searchInput.value, activeCategory);
+    }
+
+    searchInput.addEventListener('input', handleFilter);
+
+    categoryChips.addEventListener('click', (e) => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+
+      // UI update
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+
+      // Logic update
+      activeCategory = chip.dataset.category;
+      handleFilter();
+    });
+  </script>
+</body>
+
+</html>
