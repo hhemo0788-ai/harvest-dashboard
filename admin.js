@@ -38,7 +38,10 @@ function renderAdminTable(productsToRender) {
     productTable.innerHTML = productsToRender.map(product => `
         <tr>
             <td style="font-weight: 600;">${product.name} ${product.isPopular ? '⭐' : ''}</td>
-            <td>${parseFloat(product.price || 0).toFixed(2)} ج.م</td>
+            <td>
+                <div style="font-size: 0.85rem;">قطاعي: ${parseFloat(product.price || 0).toFixed(2)}</div>
+                <div style="font-size: 0.85rem; color: var(--secondary);">جملة: ${product.price2 ? parseFloat(product.price2).toFixed(2) : '---'}</div>
+            </td>
             <td>${product.quantity}</td>
             <td><span class="badge badge-expiry">${product.expiry}</span></td>
             <td>
@@ -121,6 +124,7 @@ window.openModal = function (product = null) {
         document.getElementById('importer').value = product.importer || "";
         document.getElementById('origin').value = product.origin || "";
         document.getElementById('price').value = product.price;
+        document.getElementById('price2').value = product.price2 || "";
         document.getElementById('quantity').value = product.quantity;
         document.getElementById('expiry').value = product.expiry;
         document.getElementById('isPopular').checked = product.isPopular || false;
@@ -176,6 +180,7 @@ productForm.addEventListener('submit', async (e) => {
         cartonContent: document.getElementById('cartonContent').value,
         packageSize: document.getElementById('packageSize').value,
         price: document.getElementById('price').value,
+        price2: document.getElementById('price2').value,
         useRate: document.getElementById('useRate').value,
         importer: document.getElementById('importer').value,
         origin: document.getElementById('origin').value,

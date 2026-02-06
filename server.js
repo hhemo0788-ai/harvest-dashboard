@@ -33,6 +33,7 @@ const ProductSchema = new mongoose.Schema({
     importer: String,
     origin: String,
     price: Number,
+    price2: Number,
     quantity: Number,
     expiry: String,
     isPopular: { type: Boolean, default: false },
