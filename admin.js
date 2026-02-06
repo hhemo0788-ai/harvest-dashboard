@@ -7,15 +7,35 @@ const productForm = document.getElementById('productForm');
 const productModal = document.getElementById('productModal');
 const modalTitle = document.getElementById('modalTitle');
 
+let allProducts = [];
+
 // Initial render
-renderAdminProducts();
+fetchAndRender();
+
+async function fetchAndRender() {
+    allProducts = await getProducts();
+    applyFilter();
+}
+
+function applyFilter() {
+    const term = document.getElementById('adminSearchInput')?.value.toLowerCase() || "";
+    const filtered = allProducts.filter(p =>
+        (p.name && p.name.toLowerCase().includes(term)) ||
+        (p.ingredient && p.ingredient.toLowerCase().includes(term))
+    );
+    renderAdminTable(filtered);
+}
+
+const adminSearchInput = document.getElementById('adminSearchInput');
+if (adminSearchInput) {
+    adminSearchInput.addEventListener('input', applyFilter);
+}
 
 /**
  * Renders products in the admin table
  */
-async function renderAdminProducts() {
-    const products = await getProducts();
-    productTable.innerHTML = products.map(product => `
+function renderAdminTable(productsToRender) {
+    productTable.innerHTML = productsToRender.map(product => `
         <tr>
             <td style="font-weight: 600;">${product.name} ${product.isPopular ? '⭐' : ''}</td>
             <td>${parseFloat(product.price || 0).toFixed(2)} ج.م</td>
@@ -184,7 +204,7 @@ productForm.addEventListener('submit', async (e) => {
         }
 
         if (res.ok) {
-            renderAdminProducts();
+            fetchAndRender();
             closeModal();
         } else {
             alert('حدث خطأ أثناء حفظ المنتج');
@@ -204,7 +224,7 @@ window.deleteProduct = async function (id) {
                 method: 'DELETE'
             });
             if (res.ok) {
-                renderAdminProducts();
+                fetchAndRender();
             } else {
                 alert('حدث خطأ أثناء حذف المنتج');
             }

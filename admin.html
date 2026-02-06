@@ -27,11 +27,16 @@
     </header>
 
     <main class="container">
-        <div class="admin-header">
-            <h2>إدارة المنتجات</h2>
-            <button class="btn btn-primary" onclick="openModal()">
-                <span>+</span> إضافة منتج جديد
-            </button>
+        <div class="admin-header"
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+            <h2 style="margin: 0;">إدارة المنتجات</h2>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <input type="text" id="adminSearchInput" placeholder="بحث بالاسم أو المادة الفعالة..."
+                    style="padding: 0.7rem 1.2rem; border-radius: 50px; border: 1px solid #e2e8f0; width: 250px; font-size: 0.9rem;">
+                <button class="btn btn-primary" onclick="openModal()">
+                    <span>+</span> إضافة منتج جديد
+                </button>
+            </div>
         </div>
 
         <div style="overflow-x: auto;">
