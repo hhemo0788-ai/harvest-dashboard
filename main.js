@@ -46,11 +46,19 @@ async function renderProducts(filter = "", category = "") {
     const products = await getProducts();
     let filtered = products.filter(p => {
         const searchTerm = filter.toLowerCase();
-        const matchesName = p.name ? p.name.toLowerCase().includes(searchTerm) : false;
-        const matchesIngredient = p.ingredient && p.ingredient.toLowerCase().includes(searchTerm);
-        const matchesCategory = category === "" || p.category === category;
+        const matchesSearch = (p.name && p.name.toLowerCase().includes(searchTerm)) ||
+            (p.ingredient && p.ingredient.toLowerCase().includes(searchTerm));
 
-        return (matchesName || matchesIngredient) && matchesCategory;
+        const isOutOfStock = (p.quantity === 0 || !p.quantity);
+
+        if (category === "out-of-stock") {
+            // "Out of Stock" mode: show only quantity 0
+            return matchesSearch && isOutOfStock;
+        } else {
+            // Normal mode: hide quantity 0, match category and search
+            const matchesCategory = category === "" || p.category === category;
+            return matchesSearch && matchesCategory && !isOutOfStock;
+        }
     });
 
     // If no category selected and no search, show only popular products
