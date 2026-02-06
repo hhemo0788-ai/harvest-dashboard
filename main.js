@@ -87,10 +87,7 @@ async function renderProducts(filter = "", category = "") {
                         </div>
                         <h3>${product.name}</h3>
                     </div>
-                    <div style="text-align: left;">
-                        <div class="price" style="font-size: 1.1rem;">${parseFloat(product.price || 0).toFixed(2)} <small style="font-size: 0.7rem;">قطاعي</small></div>
-                        ${product.price2 ? `<div style="color: var(--secondary); font-weight: 600; font-size: 0.9rem;">${parseFloat(product.price2).toFixed(2)} <small style="font-size: 0.6rem;">جملة</small></div>` : ''}
-                    </div>
+                    <div class="price">${product.price || '0'} ج.م</div>
                 </div>
 
                 ${product.ingredient ? `<div style="font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--text-dark); line-height: 1.5;">

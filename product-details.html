@@ -127,18 +127,7 @@
                     <div class="details-info">
                         <span class="badge badge-stock" style="margin-bottom: 1rem;">${product.category || 'عام'}</span>
                         <h1>${product.name}</h1>
-                        <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 2rem;">
-                            <div>
-                                <small style="display: block; color: var(--text-light); font-size: 0.9rem;">سعر القطاعي</small>
-                                <span class="price-tag" style="margin-bottom: 0;">${parseFloat(product.price || 0).toFixed(2)} ج.م</span>
-                            </div>
-                            ${product.price2 ? `
-                            <div style="border-right: 2px solid #eee; padding-right: 2rem;">
-                                <small style="display: block; color: var(--text-light); font-size: 0.9rem;">سعر الجملة</small>
-                                <span class="price-tag" style="margin-bottom: 0; color: var(--secondary);">${parseFloat(product.price2).toFixed(2)} ج.م</span>
-                            </div>
-                            ` : ''}
-                        </div>
+                        <span class="price-tag">${product.price || '0'} ج.م</span>
                         
                         <div class="info-grid">
                             <div class="info-item" style="grid-column: 1 / -1; background: white; padding: 1.5rem; border-radius: 15px; border: 1px solid #edf2ed;">
