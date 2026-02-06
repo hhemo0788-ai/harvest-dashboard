@@ -43,6 +43,15 @@ const ProductSchema = new mongoose.Schema({
 const Product = mongoose.model('Product', ProductSchema);
 
 // API Routes
+app.get('/api/last-updated', async (req, res) => {
+    try {
+        const latest = await Product.findOne().sort({ updatedAt: -1 }).select('updatedAt');
+        res.json({ lastUpdated: latest ? latest.updatedAt : null });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.get('/api/products', async (req, res) => {
     try {
         const products = await Product.find().sort({ updatedAt: -1 });

@@ -15,6 +15,26 @@ async function getProducts() {
 }
 
 /**
+ * Fetches and displays the last update date
+ */
+async function fetchLastUpdated() {
+    const el = document.getElementById('lastUpdated');
+    if (!el) return;
+
+    try {
+        const res = await fetch(`${API_URL}/last-updated`);
+        const data = await res.json();
+        if (data.lastUpdated) {
+            const date = new Date(data.lastUpdated);
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            el.textContent = `آخر تحديث للقائمة: ${date.toLocaleDateString('ar-EG', options)}`;
+        }
+    } catch (err) {
+        console.error('Error fetching last updated date:', err);
+    }
+}
+
+/**
  * Renders products to the grid
  * @param {string} filter Filter string for search
  * @param {string} category Category filter
@@ -81,4 +101,5 @@ async function renderProducts(filter = "", category = "") {
 // Initial render if on index.html
 if (document.getElementById('productGrid')) {
     renderProducts();
+    fetchLastUpdated();
 }
