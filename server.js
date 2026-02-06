@@ -98,7 +98,7 @@ app.delete('/api/products/:id', async (req, res) => {
 });
 
 // Fallback for SPA or just direct file serving
-app.get('*', (req, res) => {
+app.use((req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
